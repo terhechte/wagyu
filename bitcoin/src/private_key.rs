@@ -20,13 +20,13 @@ pub struct BitcoinPrivateKey<N: BitcoinNetwork> {
     _network: PhantomData<N>,
 }
 
-impl<N: BitcoinNetwork> PrivateKey for BitcoinPrivateKey<N> {
+pub impl<N: BitcoinNetwork> PrivateKey for BitcoinPrivateKey<N> {
     type Address = BitcoinAddress<N>;
     type Format = BitcoinFormat;
     type PublicKey = BitcoinPublicKey<N>;
 
     /// Returns a randomly-generated compressed Bitcoin private key.
-    fn new<R: Rng>(rng: &mut R) -> Result<Self, PrivateKeyError> {
+    pub fn new<R: Rng>(rng: &mut R) -> Result<Self, PrivateKeyError> {
         Ok(Self {
             secret_key: secp256k1::SecretKey::random(rng),
             compressed: true,
@@ -35,12 +35,12 @@ impl<N: BitcoinNetwork> PrivateKey for BitcoinPrivateKey<N> {
     }
 
     /// Returns the public key of the corresponding Bitcoin private key.
-    fn to_public_key(&self) -> Self::PublicKey {
+    pub fn to_public_key(&self) -> Self::PublicKey {
         Self::PublicKey::from_private_key(self)
     }
 
     /// Returns the address of the corresponding Bitcoin private key.
-    fn to_address(&self, format: &Self::Format) -> Result<Self::Address, AddressError> {
+    pub fn to_address(&self, format: &Self::Format) -> Result<Self::Address, AddressError> {
         Self::Address::from_private_key(self, format)
     }
 }
